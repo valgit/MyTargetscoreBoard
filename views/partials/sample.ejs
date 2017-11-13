@@ -1,0 +1,17 @@
+var drinks = [
+        { name: 'Bloody Mary', drunkness: 3 },
+        { name: 'Martini', drunkness: 5 },
+        { name: 'Scotch', drunkness: 10 }
+    ];
+
+
+<!-- views/pages/index.ejs -->
+...
+<h2>Loop</h2>
+
+<ul>
+    <% drinks.forEach(function(drink) { %>
+        <li><%= drink.name %> - <%= drink.drunkness %></li>
+    <% }); %>
+</ul>
+...

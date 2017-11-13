@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My First Scoreboard Application</title>
+    <!-- link rel="stylesheet" type="text/css" href="/examples/css/style.css" -->
+     <% include partials/head %>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js"></script>
+	<script language="javascript" type="text/javascript">
+
+	 loadInterval = 5000;
+	 
+function loadAndRender()
+{
+    $.ajax(
+    {
+        url:'/api/v1/getscores',
+        type:"GET",
+        dataType:"json",
+		/*  data: 'id=' + userid */
+		success: 			
+		function(response){
+			console.log(response);
+			renderDataTable(response);          
+			
+           setTimeout(function(){
+				loadAndRender(); //this will send request again and again;
+           }, loadInterval);
+		   
+        }
+	});
+};
+
+
+function renderDataTable(data)
+{
+		// use templating ?
+			console.log(data.rounds[0]);
+			template = $('#user-template').html(); 
+			var output = Mustache.render(template, data); 
+			
+			//var output = Mustache.render("round : {{round}}", data);
+			//document.getElementById('person').innerHTML = output;
+			//$('#score').append(output);
+			$('#score').html(output);
+			//document.getElementById('score').innerHTML = output;
+			//console.log(data.rounds[0].players[0].name);
+		    //$('#scoreboard table').append("<tr><td>"+data.players[0].name+"</td><tr>");
+}
+
+$(document).ready(loadAndRender);
+
+</script>
+
+<script id="user-template" type="text-template">
+	Competition : {{match}} Categorie : {{category}}
+	{{#rounds}}
+	  
+	 <div id="scoreboard">
+	 <table id="container">
+        <thead>
+        <tr><th>player</th><th>score</th><tr>
+        </thead>
+		 <tbody id="playerscore">
+    
+      {{#players}}
+      <tr>
+        <td>{{name}}</td>
+		{{#end}}
+        <td>{{.}}</td>
+		{{/end}}
+      </tr>
+      {{/players}}
+    
+  </tbody>
+  		
+	
+      </table>
+      </div>
+	  
+	  {{/rounds}}
+	</script>	
+	
+</head>
+ <body class="container">
+  
+   <header>
+      <% include partials/header %>
+  </header>
+ 
+  <main>
+      <div class="jumbotron">
+
+    <h1>Scoreboard, World!</h1>
+
+	  <div id="score">	
+
+	
+	</div>	
+
+      </div>
+ 
+  </main>
+ 
+  <footer>
+      <% include partials/footer %>
+  </footer>
+	
+</body>
+</html>            
+
+
+
+
