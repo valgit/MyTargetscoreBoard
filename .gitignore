@@ -57,3 +57,14 @@ typings/
 # dotenv environment variables file
 .env
 
+# Ignore the default SQLite database.
+*.sqlite3
+
+# OS X Files
+# .DS_Store
+# Thumbs.db
+# *.swp
+# *.swo
+# *.lnk
+# *~
+#
