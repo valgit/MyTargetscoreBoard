@@ -4,8 +4,12 @@
   "description": "REST scorebaord for target archery",
   "main": "index.js",
   "author": "valery brasseur",
-  "license": "Apache",
-  "homepage": "https://github.com/",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/valgit/MyTargetscoreBoard",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valgit/MyTargetscoreBoard.git"
+  },
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2",
