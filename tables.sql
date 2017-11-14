@@ -1,6 +1,8 @@
+
 CREATE TABLE competitions (
  competition_id integer PRIMARY KEY,
- name text NOT NULL
+ name text NOT NULL,
+ "date" text NOT NULL
  );
  
 CREATE TABLE rounds (

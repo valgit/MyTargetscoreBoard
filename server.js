@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
-
+var sqlite3 = require('sqlite3').verbose();
+//var db = new sqlite3.Database(':memory:');
+//
 
 var fs    = require('fs'),
 nconf = require('nconf');
@@ -33,6 +35,8 @@ console.log('port: ' + nconf.get('server:port'));
 
 var port = nconf.get('server:port') // undefined
 //port = process.env.PORT || 8080;
+// TODO: use nconf
+var db = new sqlite3.Database('tables.sqlite3');
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
@@ -83,7 +87,7 @@ app.get('/about', function(req, res) {
         res.render('about.ejs'); 
     });
 
-console.log("Registering JSON endpoint: /stubbed");
+console.log("Registering JSON endpoint: /api/v1/getscores");
 app.get('/api/v1/getscores', function(req, res){
 
 	var obj = {};
@@ -104,6 +108,30 @@ app.get('/api/v1/getscores', function(req, res){
 	res.send(JSON.stringify(obj));
 });
 
+console.log("Registering JSON endpoint: /api/v1/getcompetitions");
+app.get('/api/v1/getcompetitions', function(req, res){
+  res.header('Content-type','application/json');
+	res.header('Charset','utf8');
+
+    db.all("SELECT * FROM competitions", function(err, row){
+        res.json({ "competitions" : row });
+    });
+});
+
+
+app.get('/api/v1/getround/:id', function(req, res){
+	var competitionId = req.params.id;
+
+  db.all("select * from rounds where competition_id=$1",competitionId,  function(err, row) {
+        if (err) {
+                console.error(err.message);
+        }
+        //console.log("dump : "+row);
+        //console.log(row.name + ": " + row.round_id);
+        res.json({ "rounds" : row });
+    });
+     
+});
 
 console.log("Registering endpoint: /stubbed");
 app.get('/stubbed', function(req, res){
@@ -123,6 +151,14 @@ app.get('/jsonendpoint', function(req, res){
         "exnum" : 123
     });
 });
+
+var roundRouter = express.Router();
+roundRouter.get('/', function(req, res) { });
+roundRouter.post('/', function(req, res) { });
+roundRouter.get('/:id', function(req, res) { });
+roundRouter.patch('/:id', function(req, res) { });
+roundRouter.delete('/:id', function(req, res) { });
+app.use('/round', roundRouter);
 
 app.use(function(req, res) {
   res.status(404).send({url: req.originalUrl + ' not found'})
