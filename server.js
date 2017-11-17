@@ -47,7 +47,8 @@ console.log("Registering endpoint: /");
 // =
 
 app.get('/', function(req, res) {
-        res.render('index.ejs'); // load the index.ejs file
+        //res.render('index.ejs'); // load the index.ejs file
+				res.render('index', { title: 'MyTarget ScoreBoard' });
     });
 
 app.get('/hello', function(req, res){
@@ -125,6 +126,7 @@ app.get('/api/v1/getround/:id', function(req, res){
   db.all("select * from rounds where competition_id=$1",competitionId,  function(err, row) {
         if (err) {
                 console.error(err.message);
+                return res.json({ errors: ['Could not retrieve rounds'] });
         }
         //console.log("dump : "+row);
         //console.log(row.name + ": " + row.round_id);
