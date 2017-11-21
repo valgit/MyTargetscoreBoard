@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	   <title><%= title %></title>
+    <!-- link rel="stylesheet" type="text/css" href="/examples/css/style.css" -->
+     <% include partials/head %>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js"></script>
+</head>
+
+ <body class="container">
+  
+   <header>
+      <% include partials/header %>
+  </header>
+ 
+  <main>
+      <div class="jumbotron">
+
+    <h1>My Scores</h1>
+
+	  <div id="score">	
+		<table>
+			<th>name</th>
+		<th>date</th>
+				 <% for (var i = 0; i < data.length; i++) { %>
+						<tr>
+							<td><a href="/details"><%= data[i].name %></a></td>
+							<td><%= data[i].date %></td>
+						</tr>    
+					<% } %>
+		</table>
+	</div>	
+
+      </div>
+ 
+  </main>
+ 
+  <footer>
+      <% include partials/footer %>
+  </footer>
+	
+</body>
+</html>            
+
+
+
+
