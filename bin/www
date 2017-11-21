@@ -4,6 +4,21 @@
  * Module dependencies.
  */
 
+ var fs    = require('fs'),
+nconf = require('nconf');
+
+// from: https://github.com/indexzero/nconf
+// Setup nconf to use (in-order):
+//   1. Command-line arguments
+//   2. Environment variables
+//   3. A file located at 'path/to/config.json'
+//
+nconf.argv()
+   .env()
+   .file({ file: 'config.json' });
+nconf.set('server:port',8080 );
+
+  
 var app = require('../app');
 var debug = require('debug')('express-example:server');
 var http = require('http');
@@ -11,8 +26,8 @@ var http = require('http');
 /**
  * Get port from environment and store in Express.
  */
+var port = normalizePort(nconf.get('server:port')); // undefined
 
-var port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 
 /**
