@@ -18,20 +18,27 @@
   <main>
       <div class="jumbotron">
 
+
     <h1>My Scores</h1>
+
+    <%= training.date %>  <%= training.location %> 
+    <%= training.indoor %>
+
+
+	  Quiver info : 
+
+	  bow : 
+		arrow : 
+
+    Round info : <%= rounds.length %>
 
 	  <div id="score">	
 		<table>
 			<th>title</th>
-		<th>date</th>
-		<th>location</th>
-		<th>indoor</th>
-				 <% for (var i = 0; i < data.length; i++) { %>
+				 <% for (var i = 0; i < rounds.length; i++) { %>
 						<tr>
-							<td><a href="/details/<%= data[i]._id %>"><%= data[i].title %></a></td>
-							<td><%= data[i].date %></td>
-							<td><%= data[i].location %></td>
-							<td><%= data[i].indoor %></td>
+							<td><a href="/rounddetails/<%= rounds[i]._id %>"><%= rounds[i].index %></a> </td>
+							<td><%= rounds[i].distance %> </td>
 						</tr>    
 					<% } %>
 		</table>
